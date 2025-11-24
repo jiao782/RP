@@ -4,27 +4,31 @@ on:
   push:
     branches: [ main ]  # 你的分支名，默认是 main，不是 master 就不用改
     paths:
-      # 只在这些文件夹/文件变化时触发（按你的实际文件夹名修改！）
-      - '1.journal/**'    # 论文笔记文件夹
-      - '2.PDFS/**'       # PDF文件夹
+      # 只在这些文件夹/文件变化时触发（适配新结构）
+      - '1.journal/**'    # 论文笔记文件夹（含子文件夹）
+      - '2.RIS/**'        # RIS文件文件夹（替换原 2.PDFS）
       - 'README.md'       # 首页文件
 
 jobs:
   build-sidebar:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 新增：允许脚本提交修改到仓库（避免权限报错）
     steps:
       # 1. 把仓库代码下载到服务器
       - name: 拉取仓库代码
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 新增：确保脚本能读取完整文件历史，避免提交失败
 
-      # 2. 自动生成 _sidebar.md
+      # 2. 自动生成 _sidebar.md（适配新结构：扫描 MD + RIS 文件）
       - name: 生成侧边栏
         run: |
           # 新建 _sidebar.md，写入首页链接
           echo "- [首页](README.md)" > _sidebar.md
           echo "" >> _sidebar.md
 
-          # 扫描 1.journal 文件夹，生成笔记链接（按文件名排序）
+          # 扫描 1.journal 文件夹，生成所有 .md 笔记链接（按文件名排序，含子文件夹）
           echo "- 论文笔记（1.journal）" >> _sidebar.md
           find 1.journal -name "*.md" | sort | while read -r file; do
             # 提取文件名（去掉路径和 .md 后缀）
@@ -34,10 +38,12 @@ jobs:
           done
           echo "" >> _sidebar.md
 
-          # 扫描 2.PDFS 文件夹，生成 PDF 链接（按文件名排序）
-          echo "- 论文PDF（2.PDFS）" >> _sidebar.md
-          find 2.PDFS -name "*.pdf" | sort | while read -r file; do
-            filename=$(basename "$file" .pdf)
+          # 扫描 2.RIS 文件夹，生成所有 .ris 文件链接（按文件名排序）
+          echo "- RIS文件（2.RIS）" >> _sidebar.md
+          find 2.RIS -name "*.ris" | sort | while read -r file; do
+            # 提取文件名（去掉路径和 .ris 后缀）
+            filename=$(basename "$file" .ris)
+            # 写入侧边栏（格式：- [文件名](文件路径)）
             echo "  - [$filename]($file)" >> _sidebar.md
           done
 
@@ -45,5 +51,5 @@ jobs:
       - name: 提交更新
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "自动化更新侧边栏"
-          file_pattern: "_sidebar.md"  # 只提交 _sidebar.md 的修改
+          commit_message: "自动化更新侧边栏（适配 1.journal + 2.RIS 结构）"
+          file_pattern: "_sidebar.md"  # 只提交 _sidebar.md 的修改，不影响其他文件
