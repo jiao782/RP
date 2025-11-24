@@ -2,12 +2,12 @@ name: 自动生成侧边栏
 on:
   # 触发条件：当你 push 代码（新增/修改/删除文件）后，自动运行
   push:
-    branches: [ main ]  #你的分支名，默认是 main，不是 master 就不用改
+    branches: [ main ]  # 你的分支名，默认是 main，不是 master 就不用改
     paths:
       # 只在这些文件夹/文件变化时触发（按你的实际文件夹名修改！）
-      - '1.journal/**'    论文笔记文件夹
-      - '2.PDFS/**'       PDF文件夹
-      - 'README.md'       首页文件
+      - '1.journal/**'    # 论文笔记文件夹
+      - '2.PDFS/**'       # PDF文件夹
+      - 'README.md'       # 首页文件
 
 jobs:
   build-sidebar:
@@ -46,4 +46,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "自动化更新侧边栏"
-          file_pattern: "_sidebar.md"  只提交 _sidebar.md 的修改
+          file_pattern: "_sidebar.md"  # 只提交 _sidebar.md 的修改
