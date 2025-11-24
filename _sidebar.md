@@ -1,5 +1,5 @@
 - [首页](README.md)
-- 论文笔记（1.journal）
-  - [论文1](1.journal/14MDPI_atmosphere/MuSTC.md)  <!-- 替换成你实际的 MD 文件名 -->
-- 论文PDF（2.RIS）
-  - [XXX论文](2.RIS/MuSTC.ris)  <!-- 替换成你实际的 PDF 文件名 -->
+- 论文笔记
+  - [MuSTC](1.journal/14MDPI_atmosphere/MuSTC.md)
+- RIS文件
+  - [MuSTC](2.RIS/MuSTC.ris)
