@@ -1,0 +1,49 @@
+name: 自动生成侧边栏
+on:
+  # 触发条件：当你 push 代码（新增/修改/删除文件）后，自动运行
+  push:
+    branches: [ main ]  你的分支名，默认是 main，不是 master 就不用改
+    paths:
+      # 只在这些文件夹/文件变化时触发（按你的实际文件夹名修改！）
+      - '1.journal/**'    论文笔记文件夹
+      - '2.PDFS/**'       PDF文件夹
+      - 'README.md'       首页文件
+
+jobs:
+  build-sidebar:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 把仓库代码下载到服务器
+      - name: 拉取仓库代码
+        uses: actions/checkout@v4
+
+      # 2. 自动生成 _sidebar.md
+      - name: 生成侧边栏
+        run: |
+          # 新建 _sidebar.md，写入首页链接
+          echo "- [首页](README.md)" > _sidebar.md
+          echo "" >> _sidebar.md
+
+          # 扫描 1.journal 文件夹，生成笔记链接（按文件名排序）
+          echo "- 论文笔记（1.journal）" >> _sidebar.md
+          find 1.journal -name "*.md" | sort | while read -r file; do
+            # 提取文件名（去掉路径和 .md 后缀）
+            filename=$(basename "$file" .md)
+            # 写入侧边栏（格式：- [文件名](文件路径)）
+            echo "  - [$filename]($file)" >> _sidebar.md
+          done
+          echo "" >> _sidebar.md
+
+          # 扫描 2.PDFS 文件夹，生成 PDF 链接（按文件名排序）
+          echo "- 论文PDF（2.PDFS）" >> _sidebar.md
+          find 2.PDFS -name "*.pdf" | sort | while read -r file; do
+            filename=$(basename "$file" .pdf)
+            echo "  - [$filename]($file)" >> _sidebar.md
+          done
+
+      # 3. 把生成的 _sidebar.md 提交回仓库
+      - name: 提交更新
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "自动化更新侧边栏"
+          file_pattern: "_sidebar.md"  只提交 _sidebar.md 的修改

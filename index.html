@@ -1,15 +1,38 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE html> <!-- 声明：这是一个HTML文件（相当于“这是一个人”的身份声明） -->
+<html lang="zh-CN"> <!-- 根标签：整个页面的“身体躯干”，所有内容都要包在里面 -->
+
 <head>
+   <!-- 头部：相当于人的“大脑/灵魂”，不显示在页面上，负责配置信息 -->
+   <!-- 这里放“看不见但重要的配置”：编码、标题、加载脚本/样式等 -->
   <meta charset="UTF-8">
-  <title>我的论文笔记</title>
+  <title>JDL论文博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- 加载Docsify核心脚本（在线借用，不用下载） -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
   <!-- 搜索插件（支持在笔记里搜关键词，不用可删掉这行） -->
   <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
 </head>
+
 <body>
+  <!-- 身体：相当于人的“躯干+四肢+五官”，所有要显示的内容都放这里 -->
+  <!-- 这里放“用户能看到的东西”：文字、图片、按钮、加载中提示等 -->
   <div id="app">加载中...</div>
+
+  <!-- 新增：Docsify 核心配置（告诉 Docsify 怎么显示内容） -->
+  <script>
+    window.$docsify = {
+      // 1. 指定首页显示 README.md 的内容（必须创建这个文件，后面会教）
+      homepage: 'README.md',
+      // 2. 自动加载侧边栏（必须创建 _sidebar.md 文件，后面会教）
+      loadSidebar: true,
+      // 3. 配置侧边栏标题（可选，让侧边栏顶部显示“目录”）
+      sidebarTitle: '📚 目录',
+      // 4. 配置导航栏标题（可选，让页面顶部显示你的博客名）
+      name: 'JDL论文博客',
+      // 5. 开启平滑滚动（可选，点击侧边栏链接时滚动更流畅）
+      smoothScroll: true
+    }
+  </script>
+
 </body>
 </html>
