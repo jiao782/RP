@@ -1,0 +1,21 @@
+TY  - EJOUR
+AU  - Peng, Han 
+AU  - Li, Wengen 
+AU  - Jin, Chang 
+AU  - Yang, Hanchen 
+AU  - Guan, Jihong 
+TI  - MuSTC: A Multi-Stage Spatio–Temporal Clustering Method for Uncovering the Regionality of Global SST
+T2  - Atmosphere
+PY  - 2023
+VL  - 14
+IS  - 9
+SN  - 2073-4433
+SP  - 1358
+AB  - Sea Surface Temperature (SST) prediction is a hot topic that has received tremendous popularity in recent years. Existing methods for SST prediction usually select one sea area of interest and conduct SST prediction by learning the spatial and temporal dependencies and patterns in historical SST data. However, global SST is a unified system of high regionality, and the SST in different sea areas shows different changing patterns due to the influence of various factors, e.g., geographic location, ocean currents and sea depth. Without a good understanding of such regionality of SST, we cannot quantitatively integrate the regionality information of SST into SST prediction models to make them adaptive to different SST patterns around the world and improve the prediction accuracy. To address this issue, we proposed the Multi-Stage Spatio–Temporal Clustering (MuSTC) method to quantitatively identify sea areas with similar SST patterns. First, MuSTC sequentially learns the representation of long-term SST with a deep temporal encoder and calculates the spatial correlation scores between grid ocean regions with self-attention. Then, MuSTC clusters grid ocean regions based on the original SST data, encoded long-term SST representation and spatial correlation scores, respectively, to obtain the sea areas with similar SST patterns from different perspectives. According to the experiments in three ocean areas, i.e., the North Pacific Ocean (NPO), the South Atlantic Ocean (SAO) and the North Atlantic Ocean (NAO), the clustering results generally match the distribution of ocean currents, which demonstrates the effectiveness of our MuSTC method. In addition, we integrate the clustering results into two representative spatio–temporal prediction models, i.e., Spatio–Temporal Graph Convolutional Networks (STGCN) and Adaptive Graph Convolutional Recurrent Network (AGCRN), to conduct SST prediction. According to the results of experiments, the integration of regionality information leads to the reduction of Root Mean Square Error (RMSE) by 1.95%, 1.39% and 1.28% in NPO, SAO and NAO, respectively, using the STGCN model, and the reduction of RMSE by 4.94%, 0.74% and 1.43% by using the AGCRN model. Such results indicate that the integration of regionality information could notably improve the prediction accuracy of SST.
+KW  - sea surface temperature
+KW  - SST prediction
+KW  - regionality
+KW  - clustering
+KW  - deep learning
+DO  - 10.3390/atmos14091358
+ER  -
