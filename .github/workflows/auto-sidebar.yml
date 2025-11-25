@@ -11,12 +11,13 @@ jobs:
   build-sidebar:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 启用写权限（辅助作用）
+      contents: write
     steps:
       - name: 拉取仓库代码
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}  # ✅ 关键！让 checkout 使用可写的 token
 
       - name: 生成侧边栏
         run: |
@@ -48,4 +49,4 @@ jobs:
         with:
           commit_message: "自动化更新侧边栏"
           file_pattern: "_sidebar.md"
-          token: ${{ secrets.GITHUB_TOKEN }}  # ✅ 关键！必须加这一行
+          token: ${{ secrets.GITHUB_TOKEN }}  # ✅ 也保留这里（双重保险）
