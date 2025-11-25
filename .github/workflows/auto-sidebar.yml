@@ -11,7 +11,7 @@ jobs:
   build-sidebar:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # 启用写权限（辅助作用）
     steps:
       - name: 拉取仓库代码
         uses: actions/checkout@v4
@@ -20,13 +20,10 @@ jobs:
 
       - name: 生成侧边栏
         run: |
-          # 启用 nullglob：当 find 无结果时，数组为空，避免错误
           shopt -s nullglob
-
           echo "- [首页](README.md)" > _sidebar.md
           echo "" >> _sidebar.md
 
-          # 扫描 1.journal 目录下的 .md 文件
           files=($(find 1.journal -name "*.md" -type f | sort))
           if [ ${#files[@]} -gt 0 ]; then
             echo "- 论文笔记（1.journal）" >> _sidebar.md
@@ -37,7 +34,6 @@ jobs:
             echo "" >> _sidebar.md
           fi
 
-          # 扫描 2.RIS 目录下的 .ris 文件
           ris_files=($(find 2.RIS -name "*.ris" -type f | sort))
           if [ ${#ris_files[@]} -gt 0 ]; then
             echo "- RIS文件（2.RIS）" >> _sidebar.md
@@ -50,6 +46,6 @@ jobs:
       - name: 提交更新
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "自动化更新侧边栏（适配 1.journal + 2.RIS 结构）"
+          commit_message: "自动化更新侧边栏"
           file_pattern: "_sidebar.md"
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}  # ✅ 关键！必须加这一行
