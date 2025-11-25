@@ -17,7 +17,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}  # ✅ 关键！让 checkout 使用可写的 token
 
       - name: 生成侧边栏
         run: |
@@ -44,9 +43,14 @@ jobs:
             done
           fi
 
-      - name: 提交更新
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "自动化更新侧边栏"
-          file_pattern: "_sidebar.md"
-          token: ${{ secrets.GITHUB_TOKEN }}  # ✅ 也保留这里（双重保险）
+      - name: 手动配置 Git 凭据（关键！）
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/jiao782/RP.git
+
+      - name: 提交并推送
+        run: |
+          git add _sidebar.md
+          git commit -m "自动化更新侧边栏" || echo "No changes to commit"
+          git push origin main
