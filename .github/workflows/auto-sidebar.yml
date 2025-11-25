@@ -1,55 +1,55 @@
 name: 自动生成侧边栏
 on:
-  # 触发条件：当你 push 代码（新增/修改/删除文件）后，自动运行
   push:
-    branches: [ main ]  # 你的分支名，默认是 main，不是 master 就不用改
+    branches: [ main ]
     paths:
-      # 只在这些文件夹/文件变化时触发（适配新结构）
-      - '1.journal/**'    # 论文笔记文件夹（含子文件夹）
-      - '2.RIS/**'        # RIS文件文件夹（替换原 2.PDFS）
-      - 'README.md'       # 首页文件
+      - '1.journal/**'
+      - '2.RIS/**'
+      - 'README.md'
 
 jobs:
   build-sidebar:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 新增：允许脚本提交修改到仓库（避免权限报错）
+      contents: write
     steps:
-      # 1. 把仓库代码下载到服务器
       - name: 拉取仓库代码
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 新增：确保脚本能读取完整文件历史，避免提交失败
+          fetch-depth: 0
 
-      # 2. 自动生成 _sidebar.md（适配新结构：扫描 MD + RIS 文件）
       - name: 生成侧边栏
         run: |
-          # 新建 _sidebar.md，写入首页链接
+          # 启用 nullglob：当 find 无结果时，数组为空，避免错误
+          shopt -s nullglob
+
           echo "- [首页](README.md)" > _sidebar.md
           echo "" >> _sidebar.md
 
-          # 扫描 1.journal 文件夹，生成所有 .md 笔记链接（按文件名排序，含子文件夹）
-          echo "- 论文笔记（1.journal）" >> _sidebar.md
-          find 1.journal -name "*.md" | sort | while read -r file; do
-            # 提取文件名（去掉路径和 .md 后缀）
-            filename=$(basename "$file" .md)
-            # 写入侧边栏（格式：- [文件名](文件路径)）
-            echo "  - [$filename]($file)" >> _sidebar.md
-          done
-          echo "" >> _sidebar.md
+          # 扫描 1.journal 目录下的 .md 文件
+          files=($(find 1.journal -name "*.md" -type f | sort))
+          if [ ${#files[@]} -gt 0 ]; then
+            echo "- 论文笔记（1.journal）" >> _sidebar.md
+            for file in "${files[@]}"; do
+              filename=$(basename "$file" .md)
+              echo "  - [$filename]($file)" >> _sidebar.md
+            done
+            echo "" >> _sidebar.md
+          fi
 
-          # 扫描 2.RIS 文件夹，生成所有 .ris 文件链接（按文件名排序）
-          echo "- RIS文件（2.RIS）" >> _sidebar.md
-          find 2.RIS -name "*.ris" | sort | while read -r file; do
-            # 提取文件名（去掉路径和 .ris 后缀）
-            filename=$(basename "$file" .ris)
-            # 写入侧边栏（格式：- [文件名](文件路径)）
-            echo "  - [$filename]($file)" >> _sidebar.md
-          done
+          # 扫描 2.RIS 目录下的 .ris 文件
+          ris_files=($(find 2.RIS -name "*.ris" -type f | sort))
+          if [ ${#ris_files[@]} -gt 0 ]; then
+            echo "- RIS文件（2.RIS）" >> _sidebar.md
+            for file in "${ris_files[@]}"; do
+              filename=$(basename "$file" .ris)
+              echo "  - [$filename]($file)" >> _sidebar.md
+            done
+          fi
 
-      # 3. 把生成的 _sidebar.md 提交回仓库
       - name: 提交更新
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "自动化更新侧边栏（适配 1.journal + 2.RIS 结构）"
-          file_pattern: "_sidebar.md"  # 只提交 _sidebar.md 的修改，不影响其他文件
+          file_pattern: "_sidebar.md"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
