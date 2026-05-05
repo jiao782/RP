@@ -1,0 +1,20 @@
+TY  - EJOUR
+AU  - Joshi, Neha 
+AU  - Ghoorkhanian, Armeen 
+AU  - Park, Jongmin 
+AU  - Zhao, Kaiguang 
+AU  - Khanal, Sami 
+TI  - A Machine Learning-Based Assessment of Proxies and Drivers of Harmful Algal Blooms in the Western Lake Erie Basin Using Satellite Remote Sensing
+T2  - Remote Sensing
+PY  - 2025
+VL  - 17
+IS  - 13
+SN  - 2072-4292
+SP  - 2164
+AB  - The western region of Lake Erie has been experiencing severe water-quality issues, mainly through the infestation of algal blooms, highlighting the urgent need for action. Understanding the drivers and the intricacies associated with algal bloom phenomena is important to develop effective water-quality remediation strategies. In this study, the influences of multiple bloom drivers were explored, together with Harmonized Landsat Sentinel-2 (HLS) images, using the datasets collected in Western Lake Erie from 2013 to 2022. Bloom drivers included a group of physicochemical and meteorological variables, and Chlorophyll-a (Chl-a) served as a proxy for algal blooms. Various combinations of these datasets were used as predictor variables for three machine learning models, including Support Vector Regression (SVR), Extreme Gradient Boosting (XGB), and Random Forest (RF). Each model is complemented with the SHapley Additive exPlanations (SHAP) model to understand the role of predictor variables in Chl-a estimation. A combination of physicochemical variables and optical spectral bands yielded the highest model performance (R2 up to 0.76, RMSE as low as 8.04 µg/L). The models using only meteorological data and spectral bands performed poorly (R2 < 0.40), indicating the limited standalone predictive power of meteorological variables. While satellite-only models achieved moderate performance (R2 up to 0.48), they could still be useful for preliminary monitoring where field data are unavailable. Furthermore, all 20 variables did not substantially improve model performance over models with only spectral and physicochemical inputs. While SVR achieved the highest R2 in individual runs, XGB provided the most stable and consistently strong performance across input configurations, which could be an important consideration for operational use. These findings are highly relevant for harmful algal bloom (HAB) monitoring, where Chl-a serves as a critical proxy. By clarifying the contribution of diverse variables to Chl-a prediction and identifying robust modeling approaches, this study provides actionable insights to support data-driven management decisions aimed at mitigating HAB impacts in freshwater systems.
+KW  - harmful algal blooms
+KW  - Harmonized Landsat Sentinel-2
+KW  - water quality
+KW  - machine learning
+DO  - 10.3390/rs17132164
+ER  -
